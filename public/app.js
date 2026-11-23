@@ -864,9 +864,17 @@
     const damageTag = `<span class="skill-tag ${damageClass(damage)}">${escapeHTML(damage)}</span>`;
     const rangeWarning = !passive && hasNumberAtLeast(range, 650);
     const cooldownWarning = !passive && hasNumberAtLeast(cooldown, 10);
-    const rankRow = !passive && cooldown
-      ? `<div class="skill-rank-row"><span class="skill-rank-label">스킬 레벨별</span><span class="skill-rank-values">${escapeHTML(cooldown)}초</span></div>`
-      : "";
+    const safeDescription = escapeHTML(description || "스킬 설명을 제공하지 않습니다.");
+    const descriptionMarkup = passive
+      ? passiveDetails?.available
+        ? ""
+        : `<p class="skill-desc">${safeDescription}</p>`
+      : `<details class="skill-description-disclosure">
+          <summary class="skill-description-toggle">
+            <span class="skill-disclosure-label"><span class="label-closed">자세히 보기</span><span class="label-open">접기</span></span>
+          </summary>
+          <p class="skill-desc">${safeDescription}</p>
+        </details>`;
     const skillTags = !passive
       ? `<div class="skill-tags">
           <span class="skill-tag${rangeWarning ? " is-warning" : ""}">${escapeHTML(range ? `사거리 ${range}` : "사거리 미확인")}</span>
@@ -884,11 +892,10 @@
         <span class="skill-key${passive ? " passive-key" : ""}">${passive ? "PASSIVE" : key}</span>
         <span class="skill-name-wrap"><h3>${escapeHTML(abilityName)}</h3><span>${passive ? "기본 지속 효과" : `${key} 스킬 · ${key === "R" ? "최대 3레벨" : "최대 5레벨"}`}</span></span>
       </div>
-      <p class="skill-desc">${escapeHTML(description || "스킬 설명을 제공하지 않습니다.")}</p>
-      ${skillTags}
-      ${passiveDetail}
-      ${rankRow}
-    </article>`;
+       ${descriptionMarkup}
+       ${skillTags}
+       ${passiveDetail}
+     </article>`;
   }
 
   function renderChampionDetails(champion) {
