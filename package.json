@@ -1,0 +1,12 @@
+{
+  "name": "rift-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "주간 LoL 전적 분석 및 챔피언 스킬 도감",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
